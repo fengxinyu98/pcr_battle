@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+<<<<<<< HEAD
+=======
+
+.vscode
+__pycache__
+>>>>>>> 13ceef5 (first commit)
