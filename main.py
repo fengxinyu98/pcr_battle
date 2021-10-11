@@ -8,4 +8,5 @@ if __name__ == '__main__':
     a = Automator()
     a.start()
     a.go_jjc()
+    a.battle_ready()
     a.battle()

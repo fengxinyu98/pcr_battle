@@ -1,7 +1,9 @@
+from cv2 import TermCriteria_COUNT
 import uiautomator2 as u2
 import time
 from cv import *
 from ocr import ocr
+
 
 class Automator:
     def __init__(self, auto_task=False, auto_policy=True,
@@ -58,16 +60,12 @@ class Automator:
         return return_dic
 
     def get_screen_state(self, screen):
-        self.dWidth, self.dHeight = self.d.window_size()
-        gray = cv2.cvtColor(screen, cv2.COLOR_RGB2GRAY)
-        ret, binary = cv2.threshold(gray, 130, 255, cv2.THRESH_BINARY)
-        num_of_white = len(np.argwhere(binary == 255))
         active_path = self.get_butt_stat(screen, [
-                                         'imgs/liwu.JPG', 'imgs/jjc.JPG', 'imgs/gengxin.JPG','imgs/zhandoukaishi.JPG'])
+                                         'imgs/liwu.JPG', 'imgs/jjc.JPG', 'imgs/gengxin.JPG', 'imgs/zhandoukaishi.JPG', 'imgs/caidan.jpg', 'imgs/xiayibu.jpg', 'imgs/xiayibu2.jpg'])
 
         if 'imgs/liwu.JPG' in active_path:
             return 'liwu'
-        
+
         if 'imgs/jjc.JPG' in active_path:
             return 'jjc'
 
@@ -77,44 +75,104 @@ class Automator:
         if 'imgs/zhandoukaishi.JPG' in active_path:
             return 'zhandoukaishi'
 
-        if num_of_white < 50000:
-            return 'dark'
+        if 'imgs/caidan.jpg' in active_path:
+            return 'caidan'
+
+        if 'imgs/xiayibu.jpg' in active_path or 'imgs/xiayibu2.jpg' in active_path:
+            return 'xiayibu'
         else:
             return 0
 
     def go_jjc(self):
         while True:
-            self.d.click(636,680)
+            self.d.click(636, 680)
             time.sleep(1)
             screen_shot = self.d.screenshot(format="opencv")
             if self.get_screen_state(screen_shot) == 'jjc':
                 break
         while True:
-            self.d.click(779,549)
-            #self.d.click(1100,549)
-            time.sleep(1)
-            screen_shot = self.d.screenshot(format="opencv")
-            if self.get_screen_state(screen_shot) == 'gengxin':
-                break
-    
-    def go_pjjc(self):
-        while True:
-            self.d.click(636,680)
-            time.sleep(1)
-            screen_shot = self.d.screenshot(format="opencv")
-            if self.get_screen_state(screen_shot) == 'jjc':
-                break
-        while True:
-            #self.d.click(779,549)
-            self.d.click(1100,549)
+            self.d.click(779, 549)
+            # self.d.click(1100,549)
             time.sleep(1)
             screen_shot = self.d.screenshot(format="opencv")
             if self.get_screen_state(screen_shot) == 'gengxin':
                 break
 
+    def go_pjjc(self):
+        while True:
+            self.d.click(636, 680)
+            time.sleep(1)
+            screen_shot = self.d.screenshot(format="opencv")
+            if self.get_screen_state(screen_shot) == 'jjc':
+                break
+        while True:
+            # self.d.click(779,549)
+            self.d.click(1100, 549)
+            time.sleep(1)
+            screen_shot = self.d.screenshot(format="opencv")
+            if self.get_screen_state(screen_shot) == 'gengxin':
+                break
+
+    def battle_ready(self):
+        count = 0
+        min_rank = 999
+        while True:
+            screen_shot = self.d.screenshot(format="opencv")
+            rank = screen_shot[158:186, 1015:1080]
+            rank = ocr(rank)
+            if rank < min_rank:
+                min_rank = rank
+            count += 1
+            if count == 10:
+                break
+            self.d.click(1155, 125)
+            time.sleep(2)
+        count = 0
+        while True:
+            screen_shot = self.d.screenshot(format="opencv")
+            rank = screen_shot[158:186, 1015:1080]
+            rank = ocr(rank)
+            if rank < min_rank + 5 or count == 10:
+                while True:
+                    self.d.click(900, 200)
+                    time.sleep(2)
+                    screen_shot = self.d.screenshot(format="opencv")
+                    if self.get_screen_state(screen_shot) == 'zhandoukaishi':
+                        break
+                break
+            count += 1
+            self.d.click(1155, 125)
+            time.sleep(2)
+
     def battle(self):
-        
-        screen_shot = self.d.screenshot(format="opencv")
-        rank = screen_shot[158:186,1015:1080]
-        rank = ocr(rank)
-        print(rank)
+        while True:
+            self.d.click(1119, 605)
+            time.sleep(2)
+            screen_shot = self.d.screenshot(format="opencv")
+            if self.get_screen_state(screen_shot) == 'caidan':
+                break
+        while True:
+            screen_shot = self.d.screenshot(format="opencv")
+            if self.get_screen_state(screen_shot) == 'xiayibu':
+                while True:
+                    self.d.click(1108, 653)
+                    time.sleep(2)
+                    screen_shot = self.d.screenshot(format="opencv")
+                    if self.get_screen_state(screen_shot) == 'gengxin':
+                        break
+                break
+
+    def test(self):
+        screen_shot = cv_imread('imgs//Screenshot.jpg')
+        template = cv_imread('imgs//xiayibu.jpg')
+        zhongxings = []
+        max_vals = []
+        h, w = template.shape[:2]  # rows->h, cols->w
+        res = cv2.matchTemplate(screen_shot, template, cv2.TM_CCOEFF_NORMED)
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+        x = (max_loc[0]+w//2)
+        y = (max_loc[1] + h // 2)
+        zhongxings.append([x, y])
+        max_vals.append(max_val)
+        print(zhongxings)
+        print(max_vals)
