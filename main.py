@@ -4,12 +4,12 @@ import cv2
 from Automator import *
 
 if __name__ == '__main__':
-    os.system('start C:\leidian\LDPlayer4\dnplayer.exe')
-    time.sleep(30)
-    os.system('adb connect 127.0.0.1:5554')
+    #os.system('start C:\leidian\LDPlayer4\dnplayer.exe')
+    # time.sleep(60)
+    #os.system('adb connect 127.0.0.1:5554')
     a = Automator()
     a.start()
-    jjc_times, pjjc_times = 0, 5
+    jjc_times, pjjc_times = 0, 0
     a.go_jjc()
     for i in range(jjc_times):
         a.battle_ready()

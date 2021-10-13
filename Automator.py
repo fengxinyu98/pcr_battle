@@ -44,10 +44,15 @@ class Automator:
 
     def get_screen_state(self, template_path, threshold=0.84):
         screen_shot = self.d.screenshot(format="opencv")
+        # screen_shot = cv2.imdecode(np.fromfile(
+        # 'imgs/Screenshot.jpg', dtype=np.uint8), -1)
         template = cv2.imdecode(np.fromfile(template_path, dtype=np.uint8), -1)
         h, w = template.shape[:2]  # rows->h, cols->w
         res = cv2.matchTemplate(screen_shot, template, cv2.TM_CCOEFF_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+        # print(max_loc[0]+w//2)
+        #print(max_loc[1] + h // 2)
+        # print(max_val)
         if max_val > threshold:
             return True
         else:
@@ -126,7 +131,7 @@ class Automator:
             if self.get_screen_state('imgs/caidan.jpg'):
                 break
         while True:
-            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg'):
+            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg') or self.get_screen_state('imgs/xiayibu2.jpg'):
                 while True:
                     self.d.click(1108, 653)
                     time.sleep(3)
@@ -140,6 +145,7 @@ class Automator:
             time.sleep(2)
             if self.get_screen_state('imgs/tiaozhan.jpg'):
                 self.d.click(1118, 607)
+                time.sleep(3)
                 break
         while True:
             self.d.click(1151, 120)
@@ -148,60 +154,69 @@ class Automator:
             time.sleep(2)
             self.d.click(1119, 605)
             time.sleep(20)
-            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg'):
-                while True:
-                    self.d.click(1108, 653)
-                    time.sleep(3)
-                    if self.get_screen_state('imgs/chetui.jpg'):
-                        break
+            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg') or self.get_screen_state('imgs/xiayibu4.jpg'):
+                self.d.click(1108, 653)
+                time.sleep(3)
+                break
+        while True:
+            if self.get_screen_state('imgs/ok.jpg'):
+                self.d.click(637, 637)
+                time.sleep(6)
                 break
         while True:
             self.d.click(847, 387)
             time.sleep(2)
             if self.get_screen_state('imgs/tiaozhan.jpg'):
                 self.d.click(1118, 607)
+                time.sleep(3)
                 break
         while True:
             self.d.click(1119, 605)
             time.sleep(20)
-            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg'):
-                while True:
-                    self.d.click(1108, 653)
-                    time.sleep(3)
-                    if self.get_screen_state('imgs/chetui.jpg'):
-                        break
+            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg') or self.get_screen_state('imgs/xiayibu4.jpg'):
+                self.d.click(1108, 653)
+                break
+        while True:
+            if self.get_screen_state('imgs/ok.jpg'):
+                self.d.click(637, 637)
+                time.sleep(6)
+                break
+
+        while True:
+            self.d.click(640, 360)
+            time.sleep(2)
+            if self.get_screen_state('imgs/tiaozhan.jpg'):
+                self.d.click(1118, 607)
+                time.sleep(3)
+                break
+        while True:
+            self.d.click(1119, 605)
+            time.sleep(20)
+            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg') or self.get_screen_state('imgs/xiayibu4.jpg'):
+                self.d.click(1108, 653)
+                break
+        while True:
+            if self.get_screen_state('imgs/ok.jpg'):
+                self.d.click(637, 637)
+                time.sleep(6)
                 break
         while True:
             self.d.click(640, 360)
             time.sleep(2)
             if self.get_screen_state('imgs/tiaozhan.jpg'):
                 self.d.click(1118, 607)
+                time.sleep(3)
                 break
         while True:
             self.d.click(1119, 605)
             time.sleep(20)
-            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg'):
-                while True:
-                    self.d.click(1108, 653)
-                    time.sleep(3)
-                    if self.get_screen_state('imgs/chetui.jpg'):
-                        break
+            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg') or self.get_screen_state('imgs/xiayibu4.jpg'):
+                self.d.click(1108, 653)
                 break
         while True:
-            self.d.click(640, 360)
-            time.sleep(2)
-            if self.get_screen_state('imgs/tiaozhan.jpg'):
-                self.d.click(1118, 607)
-                break
-        while True:
-            self.d.click(1119, 605)
-            time.sleep(20)
-            if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu2.jpg'):
-                while True:
-                    self.d.click(1108, 653)
-                    time.sleep(3)
-                    if self.get_screen_state('imgs/chetui.jpg'):
-                        break
+            if self.get_screen_state('imgs/ok.jpg'):
+                self.d.click(637, 637)
+                time.sleep(6)
                 break
         flag = True
         while flag:
@@ -210,6 +225,7 @@ class Automator:
                 time.sleep(2)
                 if self.get_screen_state('imgs/tiaozhan.jpg'):
                     self.d.click(1118, 607)
+                    time.sleep(3)
                     break
             while True:
                 self.d.click(1119, 605)
@@ -221,7 +237,7 @@ class Automator:
                         if self.get_screen_state('imgs/chetui.jpg'):
                             break
                     break
-                if self.get_screen_state('imgs/xiayibu.jpg'):
+                if self.get_screen_state('imgs/xiayibu.jpg') or self.get_screen_state('imgs/xiayibu4.jpg'):
                     flag = False
                     while True:
                         self.d.click(1108, 653)
